@@ -1,5 +1,3 @@
-const mysql = require('mysql');
-
 document.getElementById('start-button').addEventListener('click', startTest);
 document.getElementById('next').addEventListener('click', startTest);
 

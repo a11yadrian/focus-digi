@@ -1,5 +1,5 @@
 const mongoose = require('mongoose');
-const Result = require('./models/Result'); // Adjust the path if needed
+const Result = require('../models/Result'); // Adjust the path if needed
 
 // Connect to MongoDB
 const mongoUri = process.env.MONGODB_URI;
@@ -20,7 +20,16 @@ async function connectToDatabase(uri) {
 }
 
 module.exports = async (req, res) => {
-  const db = await connectToDatabase(mongoUri);
+  res.setHeader('Access-Control-Allow-Origin', 'https://a11yadrian.github.io'); // Allow requests from your GitHub Pages site
+  res.setHeader('Access-Control-Allow-Methods', 'OPTIONS, POST, GET');
+  res.setHeader('Access-Control-Allow-Headers', 'Content-Type');
+  res.setHeader('Access-Control-Max-Age', '86400'); // Cache the preflight response for 24 hours
+
+  if (req.method === 'OPTIONS') {
+    return res.status(200).end(); // Respond OK to preflight requests
+  }
+
+  await connectToDatabase(mongoUri);
 
   if (req.method === 'POST') {
     const { result } = req.body;

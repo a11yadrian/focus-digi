@@ -72,7 +72,7 @@ function lightUpIndicator() {
 
 async function submitResult(result) {
     try {
-      const response = await fetch('https://focus-digi.vercel.app/', {  // Ensure the URL is correct
+      const response = await fetch('https://focus-digi.vercel.app/api/submit', {  // Ensure the URL is correct
         method: 'POST',
         headers: {
           'Content-Type': 'application/json',

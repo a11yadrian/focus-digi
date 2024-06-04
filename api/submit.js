@@ -21,13 +21,12 @@ async function connectToDatabase(uri) {
 
 module.exports = async (req, res) => {
   // Set CORS headers for all responses
-  res.setHeader('Access-Control-Allow-Origin', 'https://a11yadrian.github.io'); // Allow requests from your GitHub Pages site
+  res.setHeader('Access-Control-Allow-Origin', 'https://a11yadrian.github.io');
   res.setHeader('Access-Control-Allow-Methods', 'OPTIONS, POST, GET');
   res.setHeader('Access-Control-Allow-Headers', 'Content-Type');
-  res.setHeader('Access-Control-Max-Age', '86400'); // Cache the preflight response for 24 hours
+  res.setHeader('Access-Control-Max-Age', '86400');
 
   if (req.method === 'OPTIONS') {
-    // Respond to preflight requests
     return res.status(200).end();
   }
 

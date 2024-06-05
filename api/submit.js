@@ -1,4 +1,5 @@
 const mongoose = require('mongoose');
+const Result = require('../models/Result'); 
 
 const mongoUri = process.env.MONGODB_URI;
 let cachedDb = null;

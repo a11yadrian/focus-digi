@@ -73,7 +73,7 @@ document.getElementById('submit-button').addEventListener('click', () => {
     } else{
         document.getElementById('false').style.display = 'block';
         stopTimer();
-        submitResult(); // only submit in false case
+        submitResult(userInput); // only submit in false case
     }
 });
 
@@ -86,14 +86,14 @@ function lightUpIndicator() {
 }
 
 
-async function submitResult() {
+async function submitResult(result) {
     try {
       const response = await fetch('https://focus-digi.vercel.app/api/submit', {  // Ensure the URL is correct
         method: 'POST',
         headers: {
           'Content-Type': 'application/json',
         },
-        body: JSON.stringify({ result: userInput, time: elapsedTime }),
+        body: JSON.stringify({ result, time: elapsedTime }),
       });
   
       if (!response.ok) {

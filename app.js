@@ -73,7 +73,7 @@ document.getElementById('submit-button').addEventListener('click', () => {
     } else{
         document.getElementById('false').style.display = 'block';
         stopTimer();
-        submitResult(userInput); // only submit in false case
+        submitResult(userInput, elapsedTime); // only submit in false case
     }
 });
 
@@ -86,14 +86,15 @@ function lightUpIndicator() {
 }
 
 
-async function submitResult(result) {
+async function submitResult(result, time) {
     try {
       const response = await fetch('https://focus-digi.vercel.app/api/submit', {  // Ensure the URL is correct
         method: 'POST',
         headers: {
           'Content-Type': 'application/json',
         },
-        body: JSON.stringify({ result, time: elapsedTime }),
+        body: JSON.stringify({ result, time}),
+        console.error('This should be time:', time);
       });
   
       if (!response.ok) {
@@ -101,7 +102,7 @@ async function submitResult(result) {
       }
   
       const data = await response.json();
-      alert(`Result submitted. Your rank is: ${data.rank}`);
+      alert(`Result submitted. Your the # ${data.rank} player`);
     } catch (error) {
       console.error('Error submitting result:', error);
       alert('There was an error submitting your result. Please try again later.');

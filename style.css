@@ -6,7 +6,7 @@ body {
     justify-content: center;
     height: 100vh;
     margin: 0;
-    background-color: green;
+    background-color: rgb(230, 230, 230);
 }
 
 #digit-display {
@@ -16,6 +16,8 @@ body {
 #start-button,
 #submit-button {
     margin-top: 20px;
+    border-radius: 8px;
+    width: 50%;
 }
 
 #indicator {

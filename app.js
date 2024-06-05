@@ -95,8 +95,8 @@ async function submitResult(finalRound, time) {
         },
         body: JSON.stringify({ finalRound, time}),
       });
-      console.error('This should be time:', time);
-      console.error('This was your last round:', finalRound);
+    //   console.error('This should be time:', time);
+    //   console.error('This was your last round:', finalRound);
 
       if (!response.ok) {
         throw new Error(`Server error: ${response.statusText}`);

@@ -65,6 +65,52 @@ button {
     }
   }
 
+/* Base input style */
+input[type="text"] {
+    background-color: #FFFFFF; /* White background */
+    color: #000000; /* Black text color */
+    border: 2px solid #007BFF; /* Blue border */
+    border-radius: 5px;
+    padding: 10px 15px;
+    font-size: 16px;
+    font-weight: bold;
+    transition: border-color 0.3s, box-shadow 0.3s;
+    width: 100%;
+    max-width: 500px;
+    box-sizing: border-box;
+    outline: none;
+    margin: 10px 0;
+  }
+  
+  /* High contrast focus state */
+  input[type="text"]:focus {
+    border-color: #FFDD57; /* High contrast yellow border */
+    box-shadow: 0 0 10px rgba(255, 221, 87, 0.5); /* Soft yellow glow */
+  }
+  
+  /* Placeholder style */
+  input[type="text"]::placeholder {
+    color: #999999; /* Grey placeholder text */
+    font-weight: normal;
+  }
+  
+  /* Disabled state */
+  input[type="text"]:disabled {
+    background-color: #F0F0F0; /* Light grey background */
+    color: #666666; /* Dark grey text */
+    border-color: #CCCCCC; /* Grey border */
+    cursor: not-allowed;
+  }
+  
+  /* Responsive adjustments for mobile */
+  @media (max-width: 768px) {
+    input[type="text"] {
+      font-size: 18px;
+      padding: 15px 20px;
+    }
+  }
+  
+
 
 #indicator {
     width: 50px;

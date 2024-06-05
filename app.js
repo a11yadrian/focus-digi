@@ -2,8 +2,12 @@ document.getElementById('start-button').addEventListener('click', startTest);
 document.getElementById('next').addEventListener('click', startTest);
 
 let digitAmount = 1;
-let digits = generateDigits(digitAmount);
+let digits = generateDigits(digitAmount); // current round
 let currentDigitIndex = 0;
+
+let timer;
+let startTime;
+let elapsedTime = 0;
 
 function generateDigits(length) {
     let digits = [];
@@ -31,6 +35,9 @@ if (document.getElementById('next').style.display !== 'none') {
     }
     currentDigitIndex = 0; // Reset the current digit index for new round
 
+    startTime = Date.now();
+    timer = setInterval(updateTimer, 1000);
+
     document.getElementById('start-button').style.display = 'none';
     document.getElementById('title').style.display = 'block';
     document.getElementById('description').style.display = 'none';
@@ -40,6 +47,14 @@ if (document.getElementById('next').style.display !== 'none') {
     document.getElementById('user-input').value = ''; //Reset User Input from last round
     displayNextDigit();
 }
+
+function updateTimer() {
+    elapsedTime = Math.floor((Date.now() - startTime) / 1000);
+  }
+
+  function stopTimer() {
+    clearInterval(timer);
+  }
 
 function endTest() {
     document.getElementById('digit-display').style.display = 'none';
@@ -57,7 +72,8 @@ document.getElementById('submit-button').addEventListener('click', () => {
         document.getElementById('next').style.display = 'block';
     } else{
         document.getElementById('false').style.display = 'block';
-        submitResult(userInput); // only submit in false case
+        stopTimer();
+        submitResult(); // only submit in false case
     }
 });
 
@@ -70,14 +86,14 @@ function lightUpIndicator() {
 }
 
 
-async function submitResult(result) {
+async function submitResult() {
     try {
       const response = await fetch('https://focus-digi.vercel.app/api/submit', {  // Ensure the URL is correct
         method: 'POST',
         headers: {
           'Content-Type': 'application/json',
         },
-        body: JSON.stringify({ result }),
+        body: JSON.stringify({ result: userInput, time: elapsedTime }),
       });
   
       if (!response.ok) {

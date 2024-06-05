@@ -1,4 +1,5 @@
 const mongoose = require('mongoose');
+const Result = require('../models/Result'); // Ensure the path is correct
 
 const mongoUri = process.env.MONGODB_URI;
 let cachedDb = null;
@@ -41,12 +42,26 @@ module.exports = async (req, res) => {
   }
 
   if (req.method === 'POST') {
-    return res.status(200).json({ message: 'POST request successful with DB connection' });
+    const { result } = req.body;
+
+    if (!result) {
+      return res.status(400).json({ message: 'Result is required' });
+    }
+
+    try {
+      const newResult = new Result({ result });
+      await newResult.save();
+      return res.status(201).json({ message: 'Result saved successfully' });
+    } catch (error) {
+      console.error('Error saving result:', error);
+      return res.status(500).json({ message: 'Server error: failed to save result', error: error.message });
+    }
   } else {
     res.setHeader('Allow', ['POST']);
     return res.status(405).end(`Method ${req.method} Not Allowed`);
   }
 };
+
 
 
 

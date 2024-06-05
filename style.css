@@ -13,15 +13,58 @@ body {
     font-size: 2em;
 }
 
-#start-button,
-#submit-button,
-#next {
-    margin-top: 20px;
-    border-radius: 8px;
-    width: 50%;
-    height: 10%;
+
+/* Base button style */
+button {
+    background-color: #007BFF; /* Primary blue color */
+    color: #FFFFFF; /* White text color */
+    border: none;
+    border-radius: 5px;
+    padding: 10px 20px;
+    font-size: 16px;
     font-weight: bold;
-}
+    cursor: pointer;
+    transition: background-color 0.3s, transform 0.3s;
+    outline: none;
+    display: inline-block;
+    margin: 10px 5px;
+  }
+  
+  /* High contrast focus state */
+  button:focus {
+    outline: 2px solid #FFDD57; /* High contrast yellow outline */
+    outline-offset: 4px;
+  }
+  
+  /* Hover state */
+  button:hover {
+    background-color: #0056b3; /* Darker blue on hover */
+    transform: scale(1.05);
+  }
+  
+  /* Active state */
+  button:active {
+    background-color: #004080; /* Even darker blue on active */
+    transform: scale(0.95);
+  }
+  
+  /* Additional style for disabled state */
+  button:disabled {
+    background-color: #CCCCCC; /* Grey background */
+    color: #666666; /* Dark grey text */
+    cursor: not-allowed;
+    transform: none;
+  }
+  
+  /* Responsive adjustments for mobile */
+  @media (max-width: 768px) {
+    button {
+      width: 100%;
+      padding: 15px;
+      font-size: 18px;
+    }
+  }
+
 
 #indicator {
     width: 50px;

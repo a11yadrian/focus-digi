@@ -57,11 +57,35 @@ module.exports = async (req, res) => {
       await newResult.save();
       console.log('Result saved successfully');
 
-      // Fetch all results to calculate the rank
-      const allResults = await Result.find({});
-      const rank = allResults.length; // Basic rank logic
+      // Aggregation pipeline to sort and rank
+      const rankAggregation = await Result.aggregate([
+        {
+          $sort: { finalRound: -1, time: 1 } // Sort by finalRound descending, then by time ascending
+        },
+        {
+          $group: {
+            _id: null,
+            results: { $push: { result: '$result', finalRound: '$finalRound', time: '$time' } }
+          }
+        },
+        {
+          $unwind: '$results'
+        },
+        {
+          $project: {
+            result: '$results.result',
+            finalRound: '$results.finalRound',
+            time: '$results.time',
+            rank: { $add: [ { $indexOfArray: [ '$results', '$results' ] }, 1 ] }
+          }
+        }
+      ]);
 
-      return res.status(201).json({ message: 'Result saved successfully', rank });
+      // Find the rank of the newly inserted result
+      const userRank = rankAggregation.findIndex(r => r.result === result && r.finalRound === finalRound && r.time === time) + 1;
+
+
+      return res.status(201).json({ message: 'Result saved successfully', userRank });
     } catch (error) {
       console.error('Error saving result:', error);
       return res.status(500).json({ message: 'Server error: failed to save result', error: error.message });

@@ -94,9 +94,9 @@ async function submitResult(result, time) {
           'Content-Type': 'application/json',
         },
         body: JSON.stringify({ result, time}),
-        console.error('This should be time:', time);
       });
-  
+      console.error('This should be time:', time);
+
       if (!response.ok) {
         throw new Error(`Server error: ${response.statusText}`);
       }

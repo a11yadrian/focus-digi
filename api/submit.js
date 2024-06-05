@@ -1,3 +1,26 @@
+const mongoose = require('mongoose');
+
+const mongoUri = process.env.MONGODB_URI;
+let cachedDb = null;
+
+async function connectToDatabase(uri) {
+  if (cachedDb) {
+    return cachedDb;
+  }
+
+  try {
+    const db = await mongoose.connect(uri, {
+      useNewUrlParser: true,
+      useUnifiedTopology: true,
+    });
+    cachedDb = db;
+    return db;
+  } catch (err) {
+    console.error('MongoDB connection error:', err);
+    throw err;
+  }
+}
+
 module.exports = async (req, res) => {
   // Set CORS headers for all responses
   res.setHeader('Access-Control-Allow-Origin', 'https://a11yadrian.github.io'); // Allow requests from your GitHub Pages site
@@ -10,13 +33,21 @@ module.exports = async (req, res) => {
     return res.status(200).end();
   }
 
+  try {
+    await connectToDatabase(mongoUri);
+    console.log('Database connected successfully');
+  } catch (error) {
+    return res.status(500).json({ message: 'Server error: failed to connect to the database', error: error.message });
+  }
+
   if (req.method === 'POST') {
-    return res.status(200).json({ message: 'POST request successful' });
+    return res.status(200).json({ message: 'POST request successful with DB connection' });
   } else {
     res.setHeader('Allow', ['POST']);
     return res.status(405).end(`Method ${req.method} Not Allowed`);
   }
 };
+
 
 
 

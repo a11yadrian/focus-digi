@@ -34,22 +34,50 @@ module.exports = async (req, res) => {
     return res.status(200).end();
   }
 
-  try {
-    await connectToDatabase(mongoUri);
-    console.log('Database connected successfully');
-  } catch (error) {
-    console.error('Error connecting to database:', error);
-    return res.status(500).json({ message: 'Server error: failed to connect to the database', error: error.message });
-  }
-
   if (req.method === 'POST') {
     const { result } = req.body;
 
-    return res.status(200).json({ message: 'POST request successful' });
+    if (!result) {
+      console.log('No result provided');
+      return res.status(400).json({ message: 'Result is required' });
+    }
+
+    try {
+      console.log('Saving new result:', result);
+      const newResult = new Result({ result });
+      await newResult.save();
+      console.log('Result saved successfully');
+
+      // Fetch all results to calculate the rank
+      const allResults = await Result.find({});
+      const rank = allResults.length; // Basic rank logic
+
+      return res.status(201).json({ message: 'Result saved successfully', rank });
+    } catch (error) {
+      console.error('Error saving result:', error);
+      return res.status(500).json({ message: 'Server error: failed to save result', error: error.message });
+    }
   } else {
     res.setHeader('Allow', ['POST']);
     return res.status(405).end(`Method ${req.method} Not Allowed`);
   }
+
+  // try {
+  //   await connectToDatabase(mongoUri);
+  //   console.log('Database connected successfully');
+  // } catch (error) {
+  //   console.error('Error connecting to database:', error);
+  //   return res.status(500).json({ message: 'Server error: failed to connect to the database', error: error.message });
+  // }
+
+  // if (req.method === 'POST') {
+  //   const { result } = req.body;
+
+  //   return res.status(200).json({ message: 'POST request successful' });
+  // } else {
+  //   res.setHeader('Allow', ['POST']);
+  //   return res.status(405).end(`Method ${req.method} Not Allowed`);
+  // }
 };
 
 

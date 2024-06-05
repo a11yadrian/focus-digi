@@ -34,8 +34,6 @@ if (document.getElementById('next').style.display !== 'none') {
     document.getElementById('start-button').style.display = 'none';
     document.getElementById('title').style.display = 'block';
     document.getElementById('description').style.display = 'none';
-    document.getElementById('user-input').style.display = 'none';
-    document.getElementById('submit-button').style.display = 'none';
     document.getElementById('digit-display').style.display = 'block';
     document.getElementById('correct').style.display = 'none';
     document.getElementById('next').style.display = 'none';
@@ -52,6 +50,8 @@ function endTest() {
 
 document.getElementById('submit-button').addEventListener('click', () => {
     const userInput = document.getElementById('user-input').value;
+    document.getElementById('submit-button').style.display = 'none';
+    document.getElementById('user-input').style.display = 'none';
     if(userInput == digits.join('')){
         document.getElementById('correct').style.display = 'block';
         document.getElementById('next').style.display = 'block';

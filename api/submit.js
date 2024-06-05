@@ -38,10 +38,13 @@ module.exports = async (req, res) => {
     await connectToDatabase(mongoUri);
     console.log('Database connected successfully');
   } catch (error) {
+    console.error('Error connecting to database:', error);
     return res.status(500).json({ message: 'Server error: failed to connect to the database', error: error.message });
   }
 
   if (req.method === 'POST') {
+    const { result } = req.body;
+
     return res.status(200).json({ message: 'POST request successful' });
   } else {
     res.setHeader('Allow', ['POST']);

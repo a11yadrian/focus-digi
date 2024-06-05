@@ -57,8 +57,8 @@ document.getElementById('submit-button').addEventListener('click', () => {
         document.getElementById('next').style.display = 'block';
     } else{
         document.getElementById('false').style.display = 'block';
+        submitResult(userInput); // only submit in false case
     }
-    submitResult(userInput); // only submit in false case
 });
 
 function lightUpIndicator() {

@@ -1,6 +1,5 @@
 const mongoose = require('mongoose');
-const Result = require('../models/Result'); 
-const cors = require('cors'); // Add the cors package
+const Result = require('../models/Result');
 
 const mongoUri = process.env.MONGODB_URI;
 let cachedDb = null;
@@ -23,14 +22,6 @@ async function connectToDatabase(uri) {
   }
 }
 
-// Middleware to handle CORS
-const corsMiddleware = cors({
-  origin: 'https://a11yadrian.github.io',
-  methods: ['OPTIONS', 'POST', 'GET'],
-  allowedHeaders: ['Content-Type'],
-  maxAge: 86400
-});
-
 module.exports = async (req, res) => {
   // Set CORS headers for all responses
   res.setHeader('Access-Control-Allow-Origin', 'https://a11yadrian.github.io'); // Allow requests from your GitHub Pages site
@@ -41,6 +32,14 @@ module.exports = async (req, res) => {
   if (req.method === 'OPTIONS') {
     // Respond to preflight requests
     return res.status(200).end();
+  }
+
+  try {
+    await connectToDatabase(mongoUri);
+    console.log('Database connected successfully');
+  } catch (error) {
+    console.error('Error connecting to database:', error);
+    return res.status(500).json({ message: 'Server error: failed to connect to the database', error: error.message });
   }
 
   if (req.method === 'POST') {
@@ -70,6 +69,8 @@ module.exports = async (req, res) => {
     res.setHeader('Allow', ['POST']);
     return res.status(405).end(`Method ${req.method} Not Allowed`);
   }
+};
+
 
   // try {
   //   await connectToDatabase(mongoUri);
@@ -87,7 +88,7 @@ module.exports = async (req, res) => {
   //   res.setHeader('Allow', ['POST']);
   //   return res.status(405).end(`Method ${req.method} Not Allowed`);
   // }
-};
+// };
 
 
 

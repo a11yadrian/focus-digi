@@ -38,6 +38,7 @@ module.exports = async (req, res) => {
     await connectToDatabase(mongoUri);
     console.log('Database connected successfully');
   } catch (error) {
+    console.error('Error connecting to database:', error);
     return res.status(500).json({ message: 'Server error: failed to connect to the database', error: error.message });
   }
 
@@ -49,8 +50,11 @@ module.exports = async (req, res) => {
     }
 
     try {
+      console.log('Saving new result:', result);
       const newResult = new Result({ result });
       await newResult.save();
+      console.log('Result saved successfully');
+
       return res.status(201).json({ message: 'Result saved successfully' });
     } catch (error) {
       console.error('Error saving result:', error);
@@ -61,6 +65,7 @@ module.exports = async (req, res) => {
     return res.status(405).end(`Method ${req.method} Not Allowed`);
   }
 };
+
 
 
 

@@ -7,26 +7,11 @@ module.exports = async (req, res) => {
 
   if (req.method === 'OPTIONS') {
     // Respond to preflight requests
-    console.log('OPTIONS request received');
     return res.status(200).end();
   }
 
   if (req.method === 'POST') {
-    console.log('POST request received');
-    const { result } = req.body;
-
-    if (!result) {
-      console.log('No result provided');
-      return res.status(400).json({ message: 'Result is required' });
-    }
-
-    console.log('Result:', result);
-    return res.status(200).json({ message: 'POST request successful', result });
-  } else {
-    res.setHeader('Allow', ['POST']);
-    return res.status(405).end(`Method ${req.method} Not Allowed`);
-  }
-};
+    return res.status(200).json({ message: 'POST request successful'});
 
 
 

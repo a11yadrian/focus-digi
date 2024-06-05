@@ -5,4 +5,4 @@ const resultSchema = new mongoose.Schema({
   timestamp: { type: Date, default: Date.now }
 }); 
 
-module.exports = mongoose.models.result || mongoose.model('result', resultSchema);
+module.exports = mongoose.models.Result || mongoose.model('Result', resultSchema);

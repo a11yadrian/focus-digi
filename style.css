@@ -25,3 +25,8 @@ body {
     opacity: 0;
     transition: opacity 0.25s;
 }
+
+#user-input {
+    z-index: 1000;  /* Set a high z-index to bring it to the front */
+    position: relative; /* Ensure it respects the z-index */
+  }

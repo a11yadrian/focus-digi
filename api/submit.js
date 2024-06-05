@@ -43,17 +43,17 @@ module.exports = async (req, res) => {
   }
 
   if (req.method === 'POST') {
-    const { result, time } = req.body;
+    const { finalRound, time } = req.body;
 
-    if (typeof result !== 'string' || typeof time !== 'number') {
+    if (typeof finalRound !== 'number' || typeof time !== 'number') {
       console.log('Invalid result or time type');
       return res.status(400).json({ message: 'Result must be a string and time must be a number' });
     }
     
 
     try {
-      console.log('Saving new result:', result, time);
-      const newResult = new Result({ result, time });
+      console.log('Saving new result:', finalRound, time);
+      const newResult = new Result({ finalRound, time });
       await newResult.save();
       console.log('Result saved successfully');
 

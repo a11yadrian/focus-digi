@@ -1,7 +1,7 @@
 const mongoose = require('mongoose');
 
 const resultSchema = new mongoose.Schema({
-  result: String,
+  finalRound: Number,
   time: Number,
 }); 
 

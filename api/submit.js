@@ -1,5 +1,6 @@
 const mongoose = require('mongoose');
 const Result = require('../models/Result'); 
+const cors = require('cors'); // Add the cors package
 
 const mongoUri = process.env.MONGODB_URI;
 let cachedDb = null;
@@ -21,6 +22,14 @@ async function connectToDatabase(uri) {
     throw err;
   }
 }
+
+// Middleware to handle CORS
+const corsMiddleware = cors({
+  origin: 'https://a11yadrian.github.io',
+  methods: ['OPTIONS', 'POST', 'GET'],
+  allowedHeaders: ['Content-Type'],
+  maxAge: 86400
+});
 
 module.exports = async (req, res) => {
   // Set CORS headers for all responses

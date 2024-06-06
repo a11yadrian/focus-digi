@@ -57,6 +57,15 @@ module.exports = async (req, res) => {
       await newResult.save();
       console.log('Result saved successfully');
 
+      // Aggregation pipeline to sort and rank
+      const rankAggregation = await Result.aggregate([
+        {
+          $sort: { finalRound: -1, time: 1 } // Sort by finalRound descending, then by time ascending
+        }
+      ]);
+
+      console.log('Rank aggregation:', rankAggregation);
+
       // Fetch all results to calculate the rank
       const allResults = await Result.find({});
       

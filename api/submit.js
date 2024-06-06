@@ -2,6 +2,7 @@ const mongoose = require('mongoose');
 const Result = require('../models/Result');
 
 const mongoUri = process.env.MONGODB_URI;
+
 let cachedDb = null;
 
 async function connectToDatabase(uri) {
@@ -28,12 +29,12 @@ module.exports = async (req, res) => {
   res.setHeader('Access-Control-Allow-Methods', 'OPTIONS, POST, GET');
   res.setHeader('Access-Control-Allow-Headers', 'Content-Type');
   res.setHeader('Access-Control-Max-Age', '86400'); // Cache the preflight response for 24 hours
-
+  
   if (req.method === 'OPTIONS') {
     // Respond to preflight requests
     return res.status(200).end();
   }
-
+  
   try {
     await connectToDatabase(mongoUri);
     console.log('Database connected successfully');
@@ -41,48 +42,26 @@ module.exports = async (req, res) => {
     console.error('Error connecting to database:', error);
     return res.status(500).json({ message: 'Server error: failed to connect to the database', error: error.message });
   }
-
+  
   if (req.method === 'POST') {
     const { finalRound, time } = req.body;
-
+  
     if (typeof finalRound !== 'number' || typeof time !== 'number') {
-      console.log('Invalid finalRound or time type');
-      return res.status(400).json({ message: 'finalRound and time must be numbers' });
+      console.log('Invalid result or time type');
+      return res.status(400).json({ message: 'Result must be a string and time must be a number' });
     }
-
+    
     try {
       console.log('Saving new result:', finalRound, time);
       const newResult = new Result({ finalRound, time });
       await newResult.save();
       console.log('Result saved successfully');
 
-      // Aggregation pipeline to sort and rank
-      const rankAggregation = await Result.aggregate([
-        {
-          $sort: { finalRound: -1, time: 1 } // Sort by finalRound descending, then by time ascending
-        },
-        {
-          $group: {
-            _id: null,
-            results: { $push: { finalRound: '$finalRound', time: '$time' } }
-          }
-        },
-        {
-          $unwind: '$results'
-        },
-        {
-          $project: {
-            finalRound: '$results.finalRound',
-            time: '$results.time',
-            rank: { $add: [{ $indexOfArray: ['$results.finalRound', '$finalRound'] }, 1] }
-          }
-        }
-      ]);
+      // Fetch all results to calculate the rank
+      const allResults = await Result.find({});
+      const rank = allResults.length; // Basic rank logic
 
-      // Find the rank of the newly inserted result
-      const userRank = rankAggregation.findIndex(r => r.finalRound === finalRound && r.time === time) + 1;
-
-      return res.status(201).json({ message: 'Result saved successfully', rank: userRank });
+      return res.status(201).json({ message: 'Result saved successfully', rank });
     } catch (error) {
       console.error('Error saving result:', error);
       return res.status(500).json({ message: 'Server error: failed to save result', error: error.message });

@@ -64,6 +64,7 @@ function endTest() {
 }
 
 document.getElementById('submit-button').addEventListener('click', () => {
+    const userInput = document.getElementById('user-input').value;
     document.getElementById('submit-button').style.display = 'none';
     document.getElementById('user-input').style.display = 'none';
     if(userInput == digits.join('')){

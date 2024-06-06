@@ -106,6 +106,7 @@ async function submitResult(finalRound, time) {
     } catch (error) {
       console.error('Error submitting result:', error);
       alert('There was an error submitting your result. Please try again later.');
+      return null;
     }
   }
   

@@ -74,7 +74,7 @@ module.exports = async (req, res) => {
       // Fetch all results to calculate the rank
       const allResults = await Result.find({});
       
-      return res.status(201).json({ message: 'Result saved successfully', userRank });
+      return res.status(201).json({ message: 'Result saved successfully', rank: userRank });
     } catch (error) {
       console.error('Error saving result:', error);
       return res.status(500).json({ message: 'Server error: failed to save result', error: error.message });

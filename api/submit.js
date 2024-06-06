@@ -48,7 +48,7 @@ module.exports = async (req, res) => {
   
     if (typeof finalRound !== 'number' || typeof time !== 'number') {
       console.log('Invalid result or time type');
-      return res.status(400).json({ message: 'Result must be a string and time must be a number' });
+      return res.status(400).json({ message: 'Rounds and time must be a number' });
     }
     
     try {
@@ -59,9 +59,8 @@ module.exports = async (req, res) => {
 
       // Fetch all results to calculate the rank
       const allResults = await Result.find({});
-      const rank = allResults.length; // Basic rank logic
-
-      return res.status(201).json({ message: 'Result saved successfully', rank });
+      
+      return res.status(201).json({ message: 'Result saved successfully', allResults });
     } catch (error) {
       console.error('Error saving result:', error);
       return res.status(500).json({ message: 'Server error: failed to save result', error: error.message });

@@ -66,6 +66,10 @@ module.exports = async (req, res) => {
 
       console.log('Rank aggregation:', rankAggregation);
 
+      // Find the rank of the newly inserted result
+      const userRank = rankAggregation.findIndex(r => r.finalRound === finalRound && r.time === time) + 1;
+
+
       // Fetch all results to calculate the rank
       const allResults = await Result.find({});
       

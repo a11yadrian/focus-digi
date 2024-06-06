@@ -46,10 +46,9 @@ module.exports = async (req, res) => {
     const { finalRound, time } = req.body;
 
     if (typeof finalRound !== 'number' || typeof time !== 'number') {
-      console.log('Invalid result or time type');
-      return res.status(400).json({ message: 'Result must be a string and time must be a number' });
+      console.log('Invalid finalRound or time type');
+      return res.status(400).json({ message: 'finalRound and time must be numbers' });
     }
-    
 
     try {
       console.log('Saving new result:', finalRound, time);
@@ -65,7 +64,7 @@ module.exports = async (req, res) => {
         {
           $group: {
             _id: null,
-            results: { $push: { result: '$result', finalRound: '$finalRound', time: '$time' } }
+            results: { $push: { finalRound: '$finalRound', time: '$time' } }
           }
         },
         {
@@ -73,19 +72,17 @@ module.exports = async (req, res) => {
         },
         {
           $project: {
-            result: '$results.result',
             finalRound: '$results.finalRound',
             time: '$results.time',
-            rank: { $add: [ { $indexOfArray: [ '$results', '$results' ] }, 1 ] }
+            rank: { $add: [{ $indexOfArray: ['$results.finalRound', '$finalRound'] }, 1] }
           }
         }
       ]);
 
       // Find the rank of the newly inserted result
-      const userRank = rankAggregation.findIndex(r => r.result === result && r.finalRound === finalRound && r.time === time) + 1;
+      const userRank = rankAggregation.findIndex(r => r.finalRound === finalRound && r.time === time) + 1;
 
-
-      return res.status(201).json({ message: 'Result saved successfully', userRank });
+      return res.status(201).json({ message: 'Result saved successfully', rank: userRank });
     } catch (error) {
       console.error('Error saving result:', error);
       return res.status(500).json({ message: 'Server error: failed to save result', error: error.message });
@@ -95,6 +92,7 @@ module.exports = async (req, res) => {
     return res.status(405).end(`Method ${req.method} Not Allowed`);
   }
 };
+
 
 
   // try {

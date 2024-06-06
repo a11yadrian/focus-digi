@@ -63,7 +63,7 @@ function endTest() {
     document.getElementById('title').style.display = 'none';
 }
 
-document.getElementById('submit-button').addEventListener('click', () => {
+document.getElementById('submit-button').addEventListener('click', async () => {
     const userInput = document.getElementById('user-input').value;
     document.getElementById('submit-button').style.display = 'none';
     document.getElementById('user-input').style.display = 'none';
@@ -73,7 +73,8 @@ document.getElementById('submit-button').addEventListener('click', () => {
     } else{
         document.getElementById('false').style.display = 'block';
         stopTimer();
-        submitResult(digitAmount, elapsedTime); // only submit in false case
+        const rank = await submitResult(digitAmount, elapsedTime);
+        alert(`Result submitted. Your rank is ${rank}`); // only submit in false case
     }
 });
 
@@ -95,15 +96,13 @@ async function submitResult(finalRound, time) {
         },
         body: JSON.stringify({ finalRound, time}),
       });
-    //   console.error('This should be time:', time);
-    //   console.error('This was your last round:', finalRound);
 
       if (!response.ok) {
         throw new Error(`Server error: ${response.statusText}`);
       }
   
       const data = await response.json();
-      alert(`Result submitted. Your lost in Round ${finalRound}`);
+      return data.rank;
     } catch (error) {
       console.error('Error submitting result:', error);
       alert('There was an error submitting your result. Please try again later.');

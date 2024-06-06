@@ -69,11 +69,12 @@ module.exports = async (req, res) => {
       // Find the rank of the newly inserted result
       const userRank = rankAggregation.findIndex(r => r.finalRound === finalRound && r.time === time) + 1;
 
+      console.log('User rank:', userRank);
 
       // Fetch all results to calculate the rank
       const allResults = await Result.find({});
       
-      return res.status(201).json({ message: 'Result saved successfully', allResults });
+      return res.status(201).json({ message: 'Result saved successfully', userRank });
     } catch (error) {
       console.error('Error saving result:', error);
       return res.status(500).json({ message: 'Server error: failed to save result', error: error.message });

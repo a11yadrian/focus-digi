@@ -64,7 +64,6 @@ function endTest() {
 }
 
 document.getElementById('submit-button').addEventListener('click', () => {
-    const userInput = document.getElementById('user-input').value;
     document.getElementById('submit-button').style.display = 'none';
     document.getElementById('user-input').style.display = 'none';
     if(userInput == digits.join('')){
@@ -103,7 +102,7 @@ async function submitResult(finalRound, time) {
       }
   
       const data = await response.json();
-      alert(`Result submitted. Your the # ${data.rank} player`);
+      alert(`Result submitted. Your lost in Round ${finalRound}`);
     } catch (error) {
       console.error('Error submitting result:', error);
       alert('There was an error submitting your result. Please try again later.');

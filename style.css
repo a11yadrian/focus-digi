@@ -9,7 +9,45 @@ body {
     padding: 0;
     overflow: hidden;
     background-color: rgb(230, 230, 230);
+    position: relative;
 }
+
+body::before {
+    content: "";
+    position: absolute;
+    top: 20%;
+    left: 30%;
+    width: 400%;
+    height: 400%;
+    background: linear-gradient(-45deg, #ffb8a2, #ff78ac, #6dd8ff, #c8ff91);
+    background-size: 400% 400%;
+    transform: translate(-30%, -30%);
+    animation: gradientAnimation 3s ease infinite, rotateAnimation 20s linear infinite;;
+    z-index: -1;
+}
+
+@keyframes gradientAnimation {
+    0% {
+        background-position: 20% 50%;
+    }
+
+    50% {
+        background-position: 100% 20%;
+    }
+
+    100% {
+        background-position: 20% 50%;
+    }
+}
+
+@keyframes rotateAnimation {
+    0% {
+      transform: rotate(0deg);
+    }
+    100% {
+      transform: rotate(360deg);
+    }
+  }
 
 #digit-display {
     font-size: 2em;
@@ -146,45 +184,11 @@ input[type="text"]:disabled {
     /* Ensure it respects the z-index */
 }
 
-body::before {
-    content: "";
-    position: absolute;
-    top: 30%;
-    left: 40%;
-    width: 400%;
-    height: 400%;
-    background: linear-gradient(-45deg, #ffb8a2, #ff78ac, #6dd8ff, #c8ff91);
-    background-size: 400% 400%;
-    transform: translate(-50%, -50%);
-    animation: gradientAnimation 3s ease infinite, rotateAnimation 30s linear infinite;;
-    z-index: -1;
-    /* Ensure it stays behind all content */
-}
-
-@keyframes gradientAnimation {
-    0% {
-        background-position: 0% 50%;
-    }
-
-    50% {
-        background-position: 100% 50%;
-    }
-
-    100% {
-        background-position: 0% 50%;
-    }
-}
-
-@keyframes rotateAnimation {
-    0% {
-      transform: rotate(0deg);
-    }
-    100% {
-      transform: rotate(360deg);
-    }
-  }
-
 .content {
     position: relative;
     z-index: 1;
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    justify-content: center;
 }

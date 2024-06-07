@@ -1,15 +1,17 @@
-body {
-    font-family: Arial, sans-serif;
-    display: flex;
-    flex-direction: column;
-    align-items: center;
-    justify-content: center;
-    height: 100vh;
+html, body {
+    height: 100%;
     margin: 0;
     padding: 0;
     overflow: hidden;
-    background-color: rgb(230, 230, 230);
+    font-family: Arial, sans-serif;
+}
+
+body {
+    display: flex;
+    align-items: center;
+    justify-content: center;
     position: relative;
+    background-color: rgb(230, 230, 230);
 }
 
 .animated-background {
@@ -210,4 +212,5 @@ input[type="text"]:disabled {
     padding: 20px;
     box-sizing: border-box;
     min-height: 100vh;
+    overflow: hidden;
 }

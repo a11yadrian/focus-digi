@@ -63,12 +63,6 @@ function endTest() {
     document.getElementById('title').style.display = 'none';
 }
 
-function showResult(message) {
-    const resultDisplay = document.getElementById('result-display');
-    resultDisplay.innerText = message;
-    resultDisplay.style.display = 'block';
-}
-
 document.getElementById('submit-button').addEventListener('click', async () => {
     const userInput = document.getElementById('user-input').value;
     document.getElementById('submit-button').style.display = 'none';
@@ -80,9 +74,9 @@ document.getElementById('submit-button').addEventListener('click', async () => {
         document.getElementById('false').style.display = 'block';
         stopTimer();
         document.getElementById('loading-indicator').style.display = 'block';
-        const rank = await submitResult(digitAmount, elapsedTime);
+        const resultData = await submitResult(digitAmount, elapsedTime);
         document.getElementById('loading-indicator').style.display = 'none';
-        if (result) {
+        if (resultData) {
             const { rank, totalResults } = result;
             const percentage = Math.floor((rank / totalResults) * 100);
             showResult(`Dein Rang ist ${rank}. Du bist in den obersten ${percentage}% der Benutzer.`);
@@ -121,4 +115,10 @@ async function submitResult(finalRound, time) {
       return null;
     }
   }
+
+  function showResult(message) {
+    const resultDisplay = document.getElementById('result-display');
+    resultDisplay.innerText = message;
+    resultDisplay.style.display = 'block';
+}
   

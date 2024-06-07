@@ -120,6 +120,6 @@ async function submitResult(finalRound, time) {
   function showResult(message) {
     const resultDisplay = document.getElementById('result-display');
     resultDisplay.innerText = message;
-    resultDisplay.style.display = 'block';
+    resultDisplay.style.display = 'flex';
 }
   

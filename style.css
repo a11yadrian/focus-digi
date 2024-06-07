@@ -12,8 +12,7 @@ body {
     position: relative;
 }
 
-body::before {
-    content: "";
+.animated-background {
     position: absolute;
     top: 20%;
     left: 30%;

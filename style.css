@@ -27,15 +27,15 @@ body {
 
 @keyframes gradientAnimation {
     0% {
-        background-position: 20% 50%;
+        background-position: 0% 50%;
     }
 
     50% {
-        background-position: 100% 20%;
+        background-position: 100% 50%;
     }
 
     100% {
-        background-position: 20% 50%;
+        background-position: 0% 50%;
     }
 }
 
@@ -209,4 +209,5 @@ input[type="text"]:disabled {
     max-width: 500px;
     padding: 20px;
     box-sizing: border-box;
+    min-height: 100vh;
 }

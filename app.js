@@ -82,8 +82,10 @@ document.getElementById('submit-button').addEventListener('click', async () => {
         document.getElementById('loading-indicator').style.display = 'block';
         const rank = await submitResult(digitAmount, elapsedTime);
         document.getElementById('loading-indicator').style.display = 'none';
-        if (rank !== null) {
-            showResult(`Dein Rang ist ${rank}`); // Show result in the frontend
+        if (result) {
+            const { rank, totalResults } = result;
+            const percentage = Math.floor((rank / totalResults) * 100);
+            showResult(`Dein Rang ist ${rank}. Du bist in den obersten ${percentage}% der Benutzer.`);
         }
     }
 });
@@ -112,7 +114,7 @@ async function submitResult(finalRound, time) {
       }
   
       const data = await response.json();
-      return data.rank;
+      return data;
     } catch (error) {
       console.error('Error submitting result:', error);
       alert('There was an error submitting your result. Please try again later.');

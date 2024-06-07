@@ -57,6 +57,9 @@ module.exports = async (req, res) => {
       await newResult.save();
       console.log('Result saved successfully');
 
+      // Get the total count of results
+      const totalResults = await Result.countDocuments();
+
       // Aggregation pipeline to sort and rank
       const rankAggregation = await Result.aggregate([
         {
@@ -74,7 +77,7 @@ module.exports = async (req, res) => {
       // Fetch all results to calculate the rank
       const allResults = await Result.find({});
       
-      return res.status(201).json({ message: 'Result saved successfully', rank: userRank });
+      return res.status(201).json({ message: 'Result saved successfully', rank: userRank, totalResults: totalResults });
     } catch (error) {
       console.error('Error saving result:', error);
       return res.status(500).json({ message: 'Server error: failed to save result', error: error.message });

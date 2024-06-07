@@ -79,8 +79,9 @@ document.getElementById('submit-button').addEventListener('click', async () => {
         if (resultData) {
             const { rank, totalResults } = resultData;
             const percentage = Math.floor((rank / totalResults) * 100);
+            document.getElementById('false').style.display = 'none';
             document.getElementById('thanks').style.display = 'block';
-            showResult(`Dein Rang ist Nummer ${rank}.<br>Du bist in den obersten ${percentage}%.`);
+            showResult(`Dein Rang ist Nummer ${rank}.\nDu bist in den obersten ${percentage}%.`);
         }
     }
 });

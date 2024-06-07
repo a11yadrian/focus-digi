@@ -193,11 +193,18 @@ input[type="text"]:disabled {
 
 #result-display {
     font-size: 1.5em;
-    color: #28a745; /* Green color for success */
+    color: #006b19; /* Green color for success */
+    background-color: rgba(255, 255, 255, 0.9); /* Semi-transparent white background */
+    padding: 20px;
+    border-radius: 10px;
+    box-shadow: 0 4px 8px rgba(0, 0, 0, 0.2); /* Box shadow for depth */
     margin-top: 20px;
     display: flex;
     align-items: center;
     justify-content: center;
+    text-align: center; /* Center align text */
+    white-space: pre-wrap; /* Ensure line breaks are respected */
+    z-index: 2; /* Ensure it is above other content */
 }
 
 .content {

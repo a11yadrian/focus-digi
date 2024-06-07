@@ -79,7 +79,7 @@ document.getElementById('submit-button').addEventListener('click', async () => {
         if (resultData) {
             const { rank, totalResults } = resultData;
             const percentage = Math.floor((rank / totalResults) * 100);
-            showResult(`Dein Rang ist ${rank}. Du bist in den obersten ${percentage}% der Benutzer.`);
+            showResult(`Dein Rang ist Nummer ${rank}.<br>Du bist in den obersten ${percentage}%.`);
         }
     }
 });

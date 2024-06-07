@@ -63,6 +63,12 @@ function endTest() {
     document.getElementById('title').style.display = 'none';
 }
 
+function showResult(message) {
+    const resultDisplay = document.getElementById('result-display');
+    resultDisplay.innerText = message;
+    resultDisplay.style.display = 'block';
+}
+
 document.getElementById('submit-button').addEventListener('click', async () => {
     const userInput = document.getElementById('user-input').value;
     document.getElementById('submit-button').style.display = 'none';
@@ -73,8 +79,12 @@ document.getElementById('submit-button').addEventListener('click', async () => {
     } else{
         document.getElementById('false').style.display = 'block';
         stopTimer();
+        document.getElementById('loading-indicator').style.display = 'block';
         const rank = await submitResult(digitAmount, elapsedTime);
-        alert(`Result submitted. Your rank is ${rank}`); // only submit in false case
+        document.getElementById('loading-indicator').style.display = 'none';
+        if (rank !== null) {
+            showResult(`Dein Rang ist ${rank}`); // Show result in the frontend
+        }
     }
 });
 

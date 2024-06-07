@@ -183,6 +183,21 @@ input[type="text"]:disabled {
     /* Ensure it respects the z-index */
 }
 
+#loading-indicator {
+    font-size: 1.5em;
+    color: #007BFF;
+    margin-top: 20px;
+}
+
+#result-display {
+    font-size: 1.5em;
+    color: #28a745; /* Green color for success */
+    margin-top: 20px;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+}
+
 .content {
     position: relative;
     z-index: 1;
